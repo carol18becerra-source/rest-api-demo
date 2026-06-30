@@ -17,20 +17,18 @@ public class PresentationServiceImpl implements PresentationService {
 
     @Override
     public List<Presentation> findAll() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'findAll'");
+        return presentationDao.findAll();
     }
 
     @Override
     public void save(Presentation presentation) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'save'");
+        presentationDao.save(presentation);
     }
 
     @Override
     public Presentation findById(int id) {
         return presentationDao.findById(id)
-                .orElseThrow(
-                        () -> new RuntimeException("No ha sido encontrada la presentacion para el id suministrado"));
+            .orElseThrow(() -> new RuntimeException("No ha sido encontrada la presentacion para el id suministrado"));
     }
+
 }
