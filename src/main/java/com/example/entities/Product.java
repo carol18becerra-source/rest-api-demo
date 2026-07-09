@@ -58,10 +58,9 @@ public class Product implements Serializable {
     @Min(value = 0, message = "El precio no puede estar en valores negativos")
     private BigDecimal price;
 
-
-    @NotNull(message="La presentecion del producto es requerida")
-   @JsonIgnoreProperties({"hibernateLazyInitializer","handler"})
+    @NotNull(message = "La presentación del producto es requerida")
     @ManyToOne(fetch = FetchType.LAZY)
+    @JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
     private Presentation presentation;
 
     private String productImage;

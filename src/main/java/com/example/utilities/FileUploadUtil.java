@@ -1,6 +1,5 @@
 package com.example.utilities;
 
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
@@ -32,27 +31,21 @@ public class FileUploadUtil {
 
         // Genera un código que incluye números (0-9) y letras (a-z, A-Z)
         RandomStringGenerator generator = RandomStringGenerator.builder()
-        .withinRange('0', 'z')
-        .filteredBy(Character::isLetterOrDigit)
-        .get();
+                .withinRange('0', 'z')
+                .filteredBy(Character::isLetterOrDigit)
+                .get();
 
-        // Uso en tu código (ejemplo para 12 caracteres):
-        fileCode = generator.generate(12);
+        // Uso en tu código (ejemplo para 8 caracteres):
+        fileCode = generator.generate(8);
 
         try (InputStream inputStream = multipartFile.getInputStream()) {
-            Path destino = uploadPath.resolve(fileCode + "-" + fileName);
+            Path destino = uploadPath.resolve(fileCode + fileName);
             Files.copy(inputStream, destino, StandardCopyOption.REPLACE_EXISTING);
-
         } catch (IOException ioe) {
-
-            throw new IOException("Error guardando el archivo de imagen" + fileName, ioe);
-            
+            throw new IOException("Error guardando el archivo de imagen " + fileName, ioe);
         }
 
-
-   
-     return fileCode;
-   
-   
+        return fileCode;
     }
+
 }

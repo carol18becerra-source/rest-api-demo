@@ -10,7 +10,7 @@
 		<!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.example</groupId>
-	<artifactId>rest-api-demo</artifactId>
+	<artifactId>rest-api-demo-mostoles-backend-2026</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name/>
 	<description/>

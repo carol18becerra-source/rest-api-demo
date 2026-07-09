@@ -1,5 +1,5 @@
 package com.example.models;
 
-public record FileUploadResponse (String fileName, String downloadURI, long fileSize) {
+public record FileUploadResponse(String fileName, String downloadURI, long fileSize) {
 
 }

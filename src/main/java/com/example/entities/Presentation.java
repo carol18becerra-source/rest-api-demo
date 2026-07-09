@@ -40,7 +40,7 @@ public class Presentation implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-
+    
     @NotNull(message = "La presentacion tiene que tener un nombre")
     @NotEmpty(message = "El nombre de la presentacion no puede estar vacio")
     @Size(min = 4, max = 25, message = "El nombre de la presentacion no puede tener menos de 4 caracteres ni mas de 25")
