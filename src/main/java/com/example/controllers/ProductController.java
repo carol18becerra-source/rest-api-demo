@@ -18,6 +18,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -453,6 +454,46 @@ public class ProductController {
             responseAsMap.put("Error Grave", "No ha podido ser actualizado el producto " +
                     " y la causa mas probable es: " +
                     e.getMostSpecificCause().getMessage());
+            responseEntity = new ResponseEntity<Map<String, Object>>(responseAsMap,
+                    HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
+        return responseEntity;
+    }
+
+    /**
+     * Metodo para eliminar un producto dado el id
+     */
+    @DeleteMapping("/{id}")
+    @Transactional
+    public ResponseEntity<Map<String, Object>> deleteProducto(@PathVariable Integer id) {
+
+        ResponseEntity<Map<String, Object>> responseEntity = null;
+        var responseAsMap = new HashMap<String, Object>();
+        try {
+            // comprobar si el produto tiene imagen y la eliminamos del file system
+            Product productToDelete = productService.findById(id);
+            if (productToDelete != null && productToDelete.getProductImage() != null) {
+                // invocamos al metodo qeu esta en el componente FileUtil
+                // para eliminar el archivo correspondientea la foto del producto
+                fileUtil.eliminarArchivo(productToDelete.getProductImage());
+            }
+
+            if (productToDelete != null) {
+                productService.delete(productToDelete);
+                String successMessage = "El producto con id " + id + ", ha sido eliminado";
+                responseAsMap.put("mensaje", successMessage);
+                responseEntity = new ResponseEntity<Map<String, Object>>(responseAsMap, HttpStatus.OK);
+            } else {
+                String notFoundMessage = "El producto con id " + id + " no existe";
+                responseAsMap.put("mensaje de error", notFoundMessage);
+                responseEntity = new ResponseEntity<>(responseAsMap, HttpStatus.NOT_FOUND);
+            }
+
+        } catch (DataAccessException e) {
+            String errorMessage = "No ha podido ser eliminado el producto cuyo id es: " + id
+                    + ", siendo la causa mas probable: " + e.getMostSpecificCause().getMessage();
+            responseAsMap.put("mensaje", errorMessage);
             responseEntity = new ResponseEntity<Map<String, Object>>(responseAsMap,
                     HttpStatus.INTERNAL_SERVER_ERROR);
         }
